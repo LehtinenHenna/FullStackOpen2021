@@ -55,7 +55,6 @@ const App = () => {
     name: 'State of a component',
     exercises: 14
   }
-  const exercises_summed = part1.exercises + part2.exercises + part3.exercises
 
   return (
     <div>
@@ -68,7 +67,7 @@ const App = () => {
       exercises2_amount={part2.exercises}  
       exercises3_amount={part3.exercises} 
       />
-      <Total total_sum={exercises_summed}/>
+      <Total total_sum={part1.exercises + part2.exercises + part3.exercises}/>
       
       
     </div>
