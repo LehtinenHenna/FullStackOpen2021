@@ -14,9 +14,9 @@ const Header = (props) => {
 const Content = (props) => {
   return(
     <>
-      <Part part_name={props.part1_name} exercises_amount={props.exercises1_amount}/>
-      <Part part_name={props.part2_name} exercises_amount={props.exercises2_amount}/>
-      <Part part_name={props.part3_name} exercises_amount={props.exercises3_amount}/>
+      <Part part_name={props.parts_list[0].name} exercises_amount={props.parts_list[0].exercises}/>
+      <Part part_name={props.parts_list[1].name} exercises_amount={props.parts_list[1].exercises}/>
+      <Part part_name={props.parts_list[2].name} exercises_amount={props.parts_list[2].exercises}/>
     </>
   )
 
@@ -33,43 +33,36 @@ const Part = (props) => {
 }
 
 const Total = (props) => {
+  const exercises_summed = props.parts_list[0].exercises + props.parts_list[1].exercises + props.parts_list[2].exercises
   return(
     <>
-      <p>Number of exercises {props.total_sum}</p>
+      <p>Number of exercises {exercises_summed}</p>
     </>
   )
-
 }
 
 const App = () => {
   const course = 'Half Stack application development'
-  const part1 = {
-    name: 'Fundamentals of React',
-    exercises: 10
-  }
-  const part2 = {
-    name: 'Using props to pass data',
-    exercises: 7
-  }
-  const part3 = {
-    name: 'State of a component',
-    exercises: 14
-  }
+  const parts = [
+    {
+      name: 'Fundamentals of React',
+      exercises: 10
+    },
+    {
+      name: 'Using props to pass data',
+      exercises: 7
+    },
+    {
+      name: 'State of a component',
+      exercises: 14
+    }
+  ]
 
   return (
     <div>
       <Header course_name={course}/>
-      <Content 
-      part1_name={part1.name} 
-      part2_name={part2.name} 
-      part3_name={part3.name}
-      exercises1_amount={part1.exercises}
-      exercises2_amount={part2.exercises}  
-      exercises3_amount={part3.exercises} 
-      />
-      <Total total_sum={part1.exercises + part2.exercises + part3.exercises}/>
-      
-      
+      <Content parts_list={parts}/>
+      <Total parts_list={parts}/>  
     </div>
   )
 }
