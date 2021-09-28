@@ -10,6 +10,43 @@ const Display = ({text, counter}) => (
   <div>{text}: {counter}</div>
 )
 
+const AverageDisplay = ({averageList}) => {
+  // Calculating the average score of feedback by summing together elements from list average
+  // and dividing the sum with the number of elements
+  // (bad feedback adds -1 to the list, neutral adds 0 and good adds 1)
+  const countAverage = () => {
+    let averageSummed = 0;
+    if (averageList.length > 0) {
+      for (let i = 0; i < averageList.length; i++) {
+        averageSummed += averageList[i];
+      }
+      return averageSummed / averageList.length
+    }
+    else {
+      return 0
+    }
+  }
+  // Displaying the result of countAverage() on the screen
+  return (
+    <div>average: {countAverage()}</div>
+  )
+}
+
+const PositiveDisplay = ({good, all}) => {
+  // Calculating the percentage of positive feedback out of all feedback
+  const countPositive = () => {
+    if (all > 0) {
+      return good / all * 100
+    }
+    else {
+      return 0
+    } 
+  }
+  // Displaying the result of countPositive() on the screen
+  return (
+    <div>positive: {countPositive()} %</div>
+  )
+}
 
 const App = () => {
   // tallenna napit omaan tilaansa
@@ -35,28 +72,6 @@ const App = () => {
     setAverage(average.concat(-1))
   }
 
-  const countAverage = () => {
-    let averageSummed = 0;
-    if (average.length > 0) {
-      for (let i = 0; i < average.length; i++) {
-        averageSummed += average[i];
-      }
-      return averageSummed / average.length
-    }
-    else {
-      return 0
-    }
-  }
-
-  const countPositive = () => {
-    if (all > 0) {
-      return good / all * 100
-    }
-    else {
-      return 0
-    } 
-  }
-
   return (
     <div>
       <h1>Give feedback</h1>
@@ -69,8 +84,8 @@ const App = () => {
       <Display text='neutral' counter={neutral}/>
       <Display text='bad' counter={bad}/>
       <Display text='all' counter={all}/>
-      <Display text='average' counter ={countAverage()}/>
-      <Display text='positive %' counter={countPositive()}/>
+      <AverageDisplay averageList={average}/>
+      <PositiveDisplay good={good} all={all}/>
     </div>
   )
 }
