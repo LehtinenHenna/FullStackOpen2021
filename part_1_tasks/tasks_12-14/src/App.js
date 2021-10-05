@@ -20,17 +20,25 @@ const App = () => {
   ]
  
   const [selected, setSelected] = useState(0)
+  const [points, setPoints] = useState(Array(anecdotes.length).fill(0)) // creating an array filled with zeros to store vote points for each anecdote index
 
-  const buttonHandler = () => {
+  const randomButtonHandler = () => {
     const random = Math.random() // gives a random decimal number between 0 and 1
     const chosen_number = Math.floor(random * anecdotes.length) // picks a random integer between 0 and anecdotes.length
     setSelected(chosen_number)
+  }
+  const voteButtonHandler = () => {
+    const copy = [...points]
+    copy[selected] += 1
+    setPoints(copy) // increment the vote points number at the index of the current anecdote by one
   }
 
   return (
     <div>
       <p>{anecdotes[selected]}</p>
-      <Button handler={buttonHandler} text="next anecdote"/>
+      <p>has {points[selected]} votes</p>
+      <Button handler={voteButtonHandler} text="vote"/>
+      <Button handler={randomButtonHandler} text="next anecdote"/>
     </div>
   )
 }
