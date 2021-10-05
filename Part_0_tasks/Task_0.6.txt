@@ -1,0 +1,5 @@
+title What happens when user writes a new note and presses Save-button in the single page app https://studies.cs.helsinki.fi/exampleapp/spa
+
+
+Browser->Server: HTTP POST https://studies.cs.helsinki.fi/exampleapp/new_note_spa
+Server->Browser: HTTP 201 {"message":"note created"}
