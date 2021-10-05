@@ -10,7 +10,7 @@ const Display = ({text, counter}) => (
   <div>{text}: {counter}</div>
 )
 
-const AverageDisplay = ({averageList}) => {
+const Statistics = ({averageList, good, all}) => {
   // Calculating the average score of feedback by summing together elements from list average
   // and dividing the sum with the number of elements
   // (bad feedback adds -1 to the list, neutral adds 0 and good adds 1)
@@ -26,13 +26,6 @@ const AverageDisplay = ({averageList}) => {
       return 0
     }
   }
-  // Displaying the result of countAverage() on the screen
-  return (
-    <div>average: {countAverage()}</div>
-  )
-}
-
-const PositiveDisplay = ({good, all}) => {
   // Calculating the percentage of positive feedback out of all feedback
   const countPositive = () => {
     if (all > 0) {
@@ -42,9 +35,13 @@ const PositiveDisplay = ({good, all}) => {
       return 0
     } 
   }
-  // Displaying the result of countPositive() on the screen
+  // Displaying statistics on the screen
   return (
-    <div>positive: {countPositive()} %</div>
+    <div>
+      average: {countAverage()}
+      <br></br>
+      positive: {countPositive()} %
+    </div>
   )
 }
 
@@ -84,8 +81,7 @@ const App = () => {
       <Display text='neutral' counter={neutral}/>
       <Display text='bad' counter={bad}/>
       <Display text='all' counter={all}/>
-      <AverageDisplay averageList={average}/>
-      <PositiveDisplay good={good} all={all}/>
+      <Statistics averageList={average} good={good} all={all}/>
     </div>
   )
 }
