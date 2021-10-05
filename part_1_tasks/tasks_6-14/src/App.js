@@ -6,11 +6,11 @@ const Button = ({handleClick, text}) => (
   </button>
 )
 
-const Display = ({text, counter}) => (
-  <div>{text}: {counter}</div>
+const StatisticLine = ({text, value}) => (
+  <div>{text}: {value}</div>
 )
 
-const Statistics = ({averageList, good, all}) => {
+const Statistics = ({averageList, good, all, neutral, bad}) => {
   // Calculating the average score of feedback by summing together elements from list average
   // and dividing the sum with the number of elements
   // (bad feedback adds -1 to the list, neutral adds 0 and good adds 1)
@@ -38,9 +38,11 @@ const Statistics = ({averageList, good, all}) => {
   // Displaying statistics on the screen
   return (
     <div>
-      average: {countAverage()}
-      <br></br>
-      positive: {countPositive()} %
+      <StatisticLine text="good" value={good}/>
+      <StatisticLine text="neutral" value={neutral}/>
+      <StatisticLine text="bad" value={bad}/>
+      <StatisticLine text="average" value={countAverage()}/>
+      <StatisticLine text="positive %" value={countPositive()}/>
     </div>
   )
 }
@@ -77,11 +79,7 @@ const App = () => {
         <Button handleClick={handleBadClick} text='bad'/>
         <br></br>
         <h1>Statistics</h1>
-        <Display text='good' counter={good}/>
-        <Display text='neutral' counter={neutral}/>
-        <Display text='bad' counter={bad}/>
-        <Display text='all' counter={all}/>
-        <Statistics averageList={average} good={good} all={all}/>
+        <Statistics averageList={average} good={good} all={all} bad={bad} neutral={neutral}/>
       </div>
     )
   }
