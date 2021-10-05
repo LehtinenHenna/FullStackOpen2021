@@ -8,6 +8,28 @@ const Button = ({handler, text}) => {
   )
 }
 
+const AnecdoteWithMostVotes = ({points, anecdotes}) => {
+  let maxNumber = 0
+  let index = 0
+
+  // let's find the index of the biggest number in points array.
+  // the same index points to the anecdote with most votes in anecdotes array.
+  for (let i = 0; i < points.length; i++) {
+    if (points[i] > maxNumber) {
+      maxNumber = points[i]
+      index = i
+    }
+  }
+
+  return (
+    <div>
+      <h1>Anecdote with most votes</h1>
+      <p>{anecdotes[index]}</p>
+      <p>has {points[index]} votes</p>
+    </div>
+  )
+}
+
 const App = () => {
   const anecdotes = [
     'If it hurts, do it more often.',
@@ -24,8 +46,8 @@ const App = () => {
 
   const randomButtonHandler = () => {
     const random = Math.random() // gives a random decimal number between 0 and 1
-    const chosen_number = Math.floor(random * anecdotes.length) // picks a random integer between 0 and anecdotes.length
-    setSelected(chosen_number)
+    const chosenNumber = Math.floor(random * anecdotes.length) // picks a random integer between 0 and anecdotes.length
+    setSelected(chosenNumber)
   }
   const voteButtonHandler = () => {
     const copy = [...points]
@@ -35,10 +57,12 @@ const App = () => {
 
   return (
     <div>
+      <h1>Anecdote of the day</h1>
       <p>{anecdotes[selected]}</p>
       <p>has {points[selected]} votes</p>
       <Button handler={voteButtonHandler} text="vote"/>
       <Button handler={randomButtonHandler} text="next anecdote"/>
+      <AnecdoteWithMostVotes points={points} anecdotes={anecdotes}/>
     </div>
   )
 }
