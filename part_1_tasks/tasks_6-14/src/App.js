@@ -68,22 +68,36 @@ const App = () => {
     setAll(all + 1)
     setAverage(average.concat(-1))
   }
-
-  return (
-    <div>
-      <h1>Give feedback</h1>
-      <Button handleClick={handleGoodClick} text='good'/>
-      <Button handleClick={handleNeutralClick} text='neutral'/>
-      <Button handleClick={handleBadClick} text='bad'/>
-      <br></br>
-      <h1>Statistics</h1>
-      <Display text='good' counter={good}/>
-      <Display text='neutral' counter={neutral}/>
-      <Display text='bad' counter={bad}/>
-      <Display text='all' counter={all}/>
-      <Statistics averageList={average} good={good} all={all}/>
-    </div>
-  )
+  if (all > 0) {
+    return (
+      <div>
+        <h1>Give feedback</h1>
+        <Button handleClick={handleGoodClick} text='good'/>
+        <Button handleClick={handleNeutralClick} text='neutral'/>
+        <Button handleClick={handleBadClick} text='bad'/>
+        <br></br>
+        <h1>Statistics</h1>
+        <Display text='good' counter={good}/>
+        <Display text='neutral' counter={neutral}/>
+        <Display text='bad' counter={bad}/>
+        <Display text='all' counter={all}/>
+        <Statistics averageList={average} good={good} all={all}/>
+      </div>
+    )
+  }
+  else {
+    return (
+      <div>
+        <h1>Give feedback</h1>
+        <Button handleClick={handleGoodClick} text='good'/>
+        <Button handleClick={handleNeutralClick} text='neutral'/>
+        <Button handleClick={handleBadClick} text='bad'/>
+        <br></br>
+        <h1>Statistics</h1>
+        <p>No feedback given</p>
+      </div>
+    )
+  }
 }
 
 
