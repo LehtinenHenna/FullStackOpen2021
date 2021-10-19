@@ -10,6 +10,18 @@ const Header = ({header}) => {
       </>
     )
   }
+
+  
+const Part = ({part_name, exercises_amount}) => {
+  return(
+    <>
+      <li>
+        {part_name} {exercises_amount}
+      </li>
+    </>
+  )
+}
+  
   
 const Content = ({parts}) => {
   return(
@@ -24,33 +36,24 @@ const Content = ({parts}) => {
 }
 
 
-const Part = ({part_name, exercises_amount}) => {
+const Total = ({ parts }) => {
+  //Creating a list of just exercises with map() so it's easier to sum them up with reduce()
+  const list_of_exercises = parts.map(part => part.exercises)
+  const exercises_summed = list_of_exercises.reduce((total, amount) => total + amount)
   return(
     <>
-      <li>
-        {part_name} {exercises_amount}
-      </li>
+      <p>Total of {exercises_summed} exercises</p>
     </>
   )
 }
 
 
-/*
-const Total = (props) => {
-  const exercises_summed = parts[0].exercises + parts[1].exercises + parts[2].exercises
-  return(
-    <>
-      <p>Number of exercises {exercises_summed}</p>
-    </>
-  )
-}
-*/
-
-const Course= ({ course }) => {
+const Course = ({ course }) => {
   return (
     <div>
       <Header header={course.name}/>
       <Content parts={course.parts}/>
+      <Total parts={course.parts}/>
     </div>
   )
 }
