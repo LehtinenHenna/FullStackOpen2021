@@ -4,9 +4,9 @@ import React from 'react'
 const Header = ({header}) => {
     return(
       <>    
-        <h1>
+        <h2>
           {header}
-        </h1>
+        </h2>
       </>
     )
   }
@@ -48,12 +48,17 @@ const Total = ({ parts }) => {
 }
 
 
-const Course = ({ course }) => {
+const Course = ({ courses }) => {
   return (
     <div>
-      <Header header={course.name}/>
-      <Content parts={course.parts}/>
-      <Total parts={course.parts}/>
+      <h1>Web development curriculum</h1>
+      {courses.map(course =>
+        <div key={course.id}>
+          <Header header={course.name}/>
+          <Content parts={course.parts}/>
+          <Total parts={course.parts}/>
+        </div>     
+      )}
     </div>
   )
 }
