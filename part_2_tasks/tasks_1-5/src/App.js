@@ -2,7 +2,8 @@ import React from 'react'
 import Course from './components/Course.js'
 
 
-const App = () => {
+const App = (props) => {
+
   const courses = [
     {
       name: 'Half Stack application development',
