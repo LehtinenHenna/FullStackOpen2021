@@ -13,6 +13,10 @@ const App = () => {
   const handleFilterChange = (event) => {
     setFilter(event.target.value)
   }
+  
+  const handleButtonClick = (country) => {
+    setFilter(country)
+  }
 
   // fetching data about countries and saving that data into the countries array
   useEffect(() => {
@@ -26,7 +30,7 @@ const App = () => {
   return (
     <div>
       <Filter filter={filter} handleFilterChange={handleFilterChange}/>
-      <CountriesRender countries={countries} filter={filter}/>
+      <CountriesRender countries={countries} filter={filter} handleButtonClick={handleButtonClick}/>
     </div>
   );
 }

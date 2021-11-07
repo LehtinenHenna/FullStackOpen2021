@@ -35,7 +35,7 @@ const OneCountryRender = ({country}) => {
 
 
 // component rendering all countries on the screen that pass the filter
-const CountriesRender = ({countries, filter}) => {
+const CountriesRender = ({countries, filter, handleButtonClick}) => {
 
   //filteredCountries is a list of country objects that have the filter word included in the name
   const filteredCountries = countries.filter((country) => {
@@ -53,11 +53,16 @@ const CountriesRender = ({countries, filter}) => {
     )
   }
   // render the country names on the screen if there's 10 or less countries to render
+  // render also a button for each country that sets the filter as that country's name when clicked
   else if (filteredCountries.length <= 10) {
     return (
         <ul>
-          {filteredCountries.map(country =>     
-            <CountryRender key={country.name.common} country={country}/> )}
+          {filteredCountries.map(country =>  
+            <div key={country.name.common}> 
+                <CountryRender country={country}/>
+                <Button handler={handleButtonClick} country={country.name.common} text='show'/>
+            </div>  
+            )}
         </ul>
     )
   } else {
@@ -80,5 +85,12 @@ const Filter = ({filter, handleFilterChange}) => {
 }
 
 
+const Button = ({handler, country, text}) => {
+  return (
+    <button onClick={() => handler(country)}>
+      {text}
+    </button>
+  )
+}
 
 export {Filter, CountriesRender}
