@@ -1,5 +1,26 @@
 import React from 'react'
 
+const Notification = ({ message, styleClass }) => {
+  if (message === null) {
+    return (
+      <div className="messagePlaceHolder"></div>
+    )
+}
+  return (
+    <div className={styleClass}>
+      {message}
+    </div>
+  )
+}
+
+const DeleteButton = ({handler, id, text}) => {
+  return (
+    <button onClick={() => handler(id)}>
+      {text}
+    </button>
+  )
+}
+
 // creating a form to post a new name and number to the phone book
 const PersonForm = ({handleAddPerson, newName, newNumber, handleNameChange, handleNumberChange}) => { 
   return (
@@ -8,15 +29,6 @@ const PersonForm = ({handleAddPerson, newName, newNumber, handleNameChange, hand
           <div> number: <input value ={newNumber} onChange={handleNumberChange}/> </div>
           <div> <button type="submit">add</button> </div>
       </form>
-  )
-}
-
-
-const DeleteButton = ({handler, id, text}) => {
-  return (
-    <button onClick={() => handler(id)}>
-      {text}
-    </button>
   )
 }
 
@@ -69,4 +81,4 @@ const Filter = ({filter, handleFilterChange}) => {
   )
 }
 
-export {Filter, PersonsRender, PersonForm}
+export {Filter, PersonsRender, PersonForm, Notification}

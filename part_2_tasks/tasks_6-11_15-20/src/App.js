@@ -1,13 +1,14 @@
 import React, { useState, useEffect } from 'react'
-import {PersonForm, PersonsRender, Filter} from './components/Person.js'
+import {PersonForm, PersonsRender, Filter, Notification} from './components/Person.js'
 import personService from './services/persons.js'
 
 const App = () => {
-  const [persons, setPersons] = useState([]) 
+  const [ persons, setPersons ] = useState([]) 
   const [ newName, setNewName ] = useState('')
-  const [ newNumber, setNewNumber] = useState('')
+  const [ newNumber, setNewNumber ] = useState('')
   const [ filter, setFilter ] = useState('')
-  
+  const [ successMessage, setSuccessMessage ] = useState(null)
+
 
   // fetching data from json server and saving that data to persons
   useEffect(() => {
@@ -38,6 +39,10 @@ const App = () => {
               setPersons(persons.map(person => person.id !== samePerson.id ? person : returnedPerson))
               setNewName('')
               setNewNumber('')
+              setSuccessMessage(`${personObject.name}'s phone number updated successfully`)
+              setTimeout(() => {
+                setSuccessMessage(null)
+              }, 4000)
             })
         }
       }
@@ -61,6 +66,10 @@ const App = () => {
           setPersons(persons.concat(returnedPerson))
           setNewName('')
           setNewNumber('')
+          setSuccessMessage(`${personObject.name} added to the phonebook`)
+          setTimeout(() => {
+            setSuccessMessage(null)
+          }, 4000)
         }) 
     } 
   }
@@ -81,22 +90,28 @@ const App = () => {
   const handleDeleteClick = (id) => { 
     const confirm = window.confirm("Are you sure you want to delete this person?")
     if (confirm === true) {
+      const personToDelete = persons.find(person => person.id === id)
       personService
         .remove(id)
         .then(() => {
           setPersons(persons.filter(p => p.id !== id))
+          setSuccessMessage(`${personToDelete.name} successfully deleted`)
+          setTimeout(() => {
+            setSuccessMessage(null)
+          }, 4000)
         })
     }
   }
 
   return (
     <div>
-      <h2> Phonebook </h2>
+      <h1> Phonebook </h1>
+      <Notification message={successMessage} styleClass="successMessage"/>
       <Filter 
         filter={filter} 
         handleFilterChange={handleFilterChange}
       />
-      <h3> Add a new </h3>
+      <h2> Add a new </h2>
       <PersonForm 
         handleAddPerson={handleAddPerson} 
         newName={newName} 
@@ -104,7 +119,7 @@ const App = () => {
         handleNameChange={handleNameChange} 
         handleNumberChange={handleNumberChange}
       />
-      <h3> Numbers </h3>
+      <h2> Numbers </h2>
       <PersonsRender 
         persons={persons} 
         filter={filter} 
