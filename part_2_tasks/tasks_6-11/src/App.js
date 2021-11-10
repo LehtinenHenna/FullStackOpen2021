@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react'
-import axios from 'axios'
 import {PersonForm, PersonsRender, Filter} from './components/Person.js'
-
+import personService from './services/persons.js'
 
 const App = () => {
   const [persons, setPersons] = useState([]) 
@@ -11,15 +10,12 @@ const App = () => {
   
   // fetching data from json server and saving that data to persons
   useEffect(() => {
-    console.log('effect')
-    axios
-      .get('http://localhost:3001/persons')
-      .then(response => {
-        console.log('promise fulfilled')
-        setPersons(response.data)
+    personService
+      .getAll()
+        .then(initialPersons => {
+          setPersons(initialPersons)
       })
   }, [])
-  console.log('render', persons.length, 'persons')
 
   const handleAddPerson = (event) => {
     event.preventDefault()
@@ -40,10 +36,14 @@ const App = () => {
       window.alert(`Please add a name.`)
     }
     // if the person doesn't exist yet and the number is either a number or left blank let's add personObject to the phone book 
-    else { 
-      setPersons(persons.concat(personObject))
-      setNewName('')
-      setNewNumber('')
+    else {
+      personService
+        .create(personObject)
+          .then(returnedPerson => {
+            setPersons(persons.concat(returnedPerson))
+            setNewName('')
+            setNewNumber('')
+          }) 
     } 
   }
 
@@ -74,3 +74,6 @@ const App = () => {
 }
 
 export default App
+
+// start react app: npm start
+// start json server: npm run server
