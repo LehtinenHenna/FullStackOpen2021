@@ -7,7 +7,8 @@ const App = () => {
   const [ newName, setNewName ] = useState('')
   const [ newNumber, setNewNumber ] = useState('')
   const [ filter, setFilter ] = useState('')
-  const [ successMessage, setSuccessMessage ] = useState(null)
+  const [ message, setMessage ] = useState(null)
+  const [ success, setSuccess ] = useState(true)
 
 
   // fetching data from json server and saving that data to persons
@@ -39,24 +40,46 @@ const App = () => {
               setPersons(persons.map(person => person.id !== samePerson.id ? person : returnedPerson))
               setNewName('')
               setNewNumber('')
-              setSuccessMessage(`${personObject.name}'s phone number updated successfully`)
+              setSuccess(true)
+              setMessage(`${personObject.name}'s phone number updated successfully`)
               setTimeout(() => {
-                setSuccessMessage(null)
+                setMessage(null)
+              }, 4000)
+            })
+            // catch the error in case the person was deleted before the update went through
+            .catch(error => {
+              setPersons(persons.filter(p => p.id !== samePerson.id))
+              setSuccess(false)
+              setMessage(`${personObject.name} was already deleted from the phone book`)
+              setTimeout(() => {
+                setMessage(null)
               }, 4000)
             })
         }
       }
       else {
-        window.alert(`${newName} is already added to the phonebook.`)
+        setSuccess(false)
+        setMessage(`${newName} is already added to the phonebook.`)
+        setTimeout(() => {
+          setMessage(null)
+        }, 4000)
       }  
     }
     // check if the input phone number is really a number. Leaving the number blank is accepted. 
     else if (isNaN(personObject.number)) {
-      window.alert(`${newNumber} is not a valid phone number.`)
+      setSuccess(false)
+      setMessage(`${newNumber} is not a valid phone number.`)
+      setTimeout(() => {
+        setMessage(null)
+      }, 4000)
     }
     // check that the name is not left blank
     else if (personObject.name === '') {
-      window.alert(`Please add a name.`)
+      setSuccess(false)
+      setMessage(`Please add a name.`)
+      setTimeout(() => {
+        setMessage(null)
+      }, 4000)
     }
     // if the person doesn't exist yet, has a name and the number is either a number or left blank let's add personObject to the phone book 
     else {
@@ -66,9 +89,10 @@ const App = () => {
           setPersons(persons.concat(returnedPerson))
           setNewName('')
           setNewNumber('')
-          setSuccessMessage(`${personObject.name} added to the phonebook`)
+          setSuccess(true)
+          setMessage(`${personObject.name} added to the phonebook`)
           setTimeout(() => {
-            setSuccessMessage(null)
+            setMessage(null)
           }, 4000)
         }) 
     } 
@@ -95,9 +119,10 @@ const App = () => {
         .remove(id)
         .then(() => {
           setPersons(persons.filter(p => p.id !== id))
-          setSuccessMessage(`${personToDelete.name} successfully deleted`)
+          setSuccess(true)
+          setMessage(`${personToDelete.name} successfully deleted`)
           setTimeout(() => {
-            setSuccessMessage(null)
+            setMessage(null)
           }, 4000)
         })
     }
@@ -106,7 +131,10 @@ const App = () => {
   return (
     <div>
       <h1> Phonebook </h1>
-      <Notification message={successMessage} styleClass="successMessage"/>
+      <Notification 
+        message={message}
+        success={success}
+      />
       <Filter 
         filter={filter} 
         handleFilterChange={handleFilterChange}

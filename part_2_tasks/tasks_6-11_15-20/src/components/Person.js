@@ -1,16 +1,25 @@
 import React from 'react'
 
-const Notification = ({ message, styleClass }) => {
+const Notification = ({ message, success}) => {
   if (message === null) {
     return (
       <div className="messagePlaceHolder"></div>
     )
-}
-  return (
-    <div className={styleClass}>
-      {message}
-    </div>
-  )
+  }
+  else if (success === true) {
+    return (
+      <div className="successMessage">
+        {message}
+      </div>
+    )
+  }
+  else if (success === false) {
+    return (
+      <div className="errorMessage">
+        {message}
+      </div>
+    )
+  }
 }
 
 const DeleteButton = ({handler, id, text}) => {

@@ -42,6 +42,17 @@ button {
   text-align: center;
 }
 
+.errorMessage {
+  color: rgb(148, 0, 0);
+  background: rgb(243, 234, 234);
+  font-size: 20px;
+  border-style: solid;
+  border-radius: 5px;
+  padding: 5px;
+  margin-bottom: 10px;
+  text-align: center;
+}
+
 .messagePlaceHolder {
   padding-top: 26px;
   padding-bottom: 25px;
