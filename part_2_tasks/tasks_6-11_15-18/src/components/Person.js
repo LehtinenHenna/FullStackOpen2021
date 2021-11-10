@@ -10,16 +10,33 @@ const PersonForm = ({handleAddPerson, newName, newNumber, handleNameChange, hand
       </form>
   )
 }
-  
-// rendering one person on the screen
-const PersonRender = ({person, filter}) => {
+
+
+const DeleteButton = ({handler, id, text}) => {
+  return (
+    <button onClick={() => handler(id)}>
+      {text}
+    </button>
+  )
+}
+
+
+// rendering one person on the screen along with delete button that deletes the person
+const PersonRender = ({person, filter, handleDeleteClick}) => {
 // making the filtering case-insensitive
   const upperFilter = filter.toUpperCase()
   const upperName = person.name.toUpperCase()
   //return only the names that apply to the filter condition
   if (upperName.includes(upperFilter)) {
       return (
-      <li>{person.name} {person.number}</li>
+      <li>
+        {person.name} {person.number}
+        <DeleteButton 
+          handler={handleDeleteClick} 
+          id={person.id} 
+          text='delete'
+        />
+      </li>
       )
   } else {
       return null
@@ -27,11 +44,17 @@ const PersonRender = ({person, filter}) => {
 }
   
 // rendering all persons on the screen
-const PersonsRender = ({persons, filter}) => {
+const PersonsRender = ({persons, filter, handleDeleteClick}) => {
   return (
       <ul>
-      {persons.map(person =>     
-          <PersonRender key={person.name} person={person} filter={filter}/> )}
+        {persons.map(person =>     
+          <PersonRender 
+          key={person.name} 
+          person={person} 
+          filter={filter}
+          handleDeleteClick={handleDeleteClick}
+          /> 
+        )}
       </ul>
   )
 }

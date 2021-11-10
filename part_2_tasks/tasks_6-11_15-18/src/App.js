@@ -12,8 +12,8 @@ const App = () => {
   useEffect(() => {
     personService
       .getAll()
-        .then(initialPersons => {
-          setPersons(initialPersons)
+      .then(initialPersons => {
+        setPersons(initialPersons)
       })
   }, [])
 
@@ -39,10 +39,10 @@ const App = () => {
     else {
       personService
         .create(personObject)
-          .then(returnedPerson => {
-            setPersons(persons.concat(returnedPerson))
-            setNewName('')
-            setNewNumber('')
+        .then(returnedPerson => {
+          setPersons(persons.concat(returnedPerson))
+          setNewName('')
+          setNewNumber('')
           }) 
     } 
   }
@@ -60,15 +60,39 @@ const App = () => {
     setFilter(event.target.value)
   }
 
+  const handleDeleteClick = (id) => { 
+    const question = window.confirm("Are you sure you want to delete this person?")
+    if (question === true) {
+      personService
+        .remove(id)
+        .then(() => {
+          setPersons(persons.filter(p => p.id !== id))
+        })
+    }
+  }
+
 
   return (
     <div>
       <h2> Phonebook </h2>
-      <Filter filter={filter} handleFilterChange={handleFilterChange}/>
+      <Filter 
+        filter={filter} 
+        handleFilterChange={handleFilterChange}
+      />
       <h3> Add a new </h3>
-      <PersonForm handleAddPerson={handleAddPerson} newName={newName} newNumber={newNumber} handleNameChange={handleNameChange} handleNumberChange={handleNumberChange}/>
+      <PersonForm 
+        handleAddPerson={handleAddPerson} 
+        newName={newName} 
+        newNumber={newNumber} 
+        handleNameChange={handleNameChange} 
+        handleNumberChange={handleNumberChange}
+      />
       <h3> Numbers </h3>
-      <PersonsRender persons={persons} filter={filter} />   
+      <PersonsRender 
+        persons={persons} 
+        filter={filter} 
+        handleDeleteClick={handleDeleteClick}
+      />   
     </div>
   )
 }
