@@ -8,6 +8,7 @@ const App = () => {
   const [ newNumber, setNewNumber] = useState('')
   const [ filter, setFilter ] = useState('')
   
+
   // fetching data from json server and saving that data to persons
   useEffect(() => {
     personService
@@ -17,6 +18,7 @@ const App = () => {
       })
   }, [])
 
+
   const handleAddPerson = (event) => {
     event.preventDefault()
     const personObject = {
@@ -24,8 +26,24 @@ const App = () => {
       number: newNumber
     }
     // check if the name already exists in the phone book (case-insensitive)
-    if (persons.find(person => person.name.toUpperCase() === personObject.name.toUpperCase())) {
-      window.alert(`${newName} is already added to the phonebook.`)  
+    const samePerson = persons.find(person => person.name.toUpperCase() === personObject.name.toUpperCase())
+    if (samePerson) {
+      // if the person exists but the phone number is different update number after confirmation
+      if (samePerson.number !== personObject.number) {
+        const confirm = window.confirm(`${samePerson.name} is already added to the phonebook, replace old number with a new one?`)
+        if (confirm === true) {
+          personService
+            .update(samePerson.id, personObject)
+            .then(returnedPerson => {
+              setPersons(persons.map(person => person.id !== samePerson.id ? person : returnedPerson))
+              setNewName('')
+              setNewNumber('')
+            })
+        }
+      }
+      else {
+        window.alert(`${newName} is already added to the phonebook.`)
+      }  
     }
     // check if the input phone number is really a number. Leaving the number blank is accepted. 
     else if (isNaN(personObject.number)) {
@@ -35,7 +53,7 @@ const App = () => {
     else if (personObject.name === '') {
       window.alert(`Please add a name.`)
     }
-    // if the person doesn't exist yet and the number is either a number or left blank let's add personObject to the phone book 
+    // if the person doesn't exist yet, has a name and the number is either a number or left blank let's add personObject to the phone book 
     else {
       personService
         .create(personObject)
@@ -43,7 +61,7 @@ const App = () => {
           setPersons(persons.concat(returnedPerson))
           setNewName('')
           setNewNumber('')
-          }) 
+        }) 
     } 
   }
 
@@ -61,8 +79,8 @@ const App = () => {
   }
 
   const handleDeleteClick = (id) => { 
-    const question = window.confirm("Are you sure you want to delete this person?")
-    if (question === true) {
+    const confirm = window.confirm("Are you sure you want to delete this person?")
+    if (confirm === true) {
       personService
         .remove(id)
         .then(() => {
@@ -70,7 +88,6 @@ const App = () => {
         })
     }
   }
-
 
   return (
     <div>
