@@ -1,5 +1,0 @@
-# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
-
-#Ignore irrelevat folders that are just for testing stuff
-/test_project
-/test_project2
